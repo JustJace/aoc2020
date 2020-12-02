@@ -92,5 +92,10 @@ namespace AOC2020.Search
 
             return null;
         }
+
+        public static GraphNode<T> AStar<T>(this Graph<T> Graph, GraphNode<T> start, Func<T, int> valueFn, Func<T, int> heuristicFn, Func<T, bool> searchFn)
+        {
+            return Dijkstras(Graph, start, data => valueFn(data) + heuristicFn(data), searchFn);
+        }
     }
 }
