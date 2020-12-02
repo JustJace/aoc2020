@@ -14,7 +14,7 @@ namespace Aoc2019.Solutions
 
         protected override int GetAnswer(string input)
         {
-            throw new Exception("No answer found");
+            return 0;
         }
     }
 }

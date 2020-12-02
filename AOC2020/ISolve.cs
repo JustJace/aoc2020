@@ -23,7 +23,8 @@ public abstract class Solver<T> : ISolve
 
     protected string ReadInput()
     {
-        return File.ReadAllText(Filename);
+        var path = Path.Combine(@"AOC2020", Filename);
+        return File.ReadAllText(path);
     }
 
     protected abstract T GetAnswer(string input);

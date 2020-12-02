@@ -23,13 +23,14 @@ public class PriorityQueue<T>
         else
         {
             var current = _nodes.First;
-            while (current.Next != null)
+            while (current != null)
             {
                 if (_valueFn(current.Value) < _valueFn(data))
                 {
                     _nodes.AddBefore(current, newNode);
                     return;
                 }
+                current = current.Next;
             }
 
             _nodes.AddLast(newNode);
