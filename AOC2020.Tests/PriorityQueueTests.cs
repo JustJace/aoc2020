@@ -1,5 +1,5 @@
-using System;
 using Xunit;
+using AOC2020.Structure;
 
 namespace AOC2020.Tests
 {

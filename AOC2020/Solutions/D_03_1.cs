@@ -4,7 +4,7 @@ using System.Text;
 using System.Linq;
 using System.Text.RegularExpressions;
 
-namespace Aoc2019.Solutions
+namespace AOC2020.Solutions
 {
     public class D_03_1 : Solver<int>
     {
