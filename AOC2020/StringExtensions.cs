@@ -33,6 +33,11 @@ namespace AOC2020
             return input.Split(Environment.NewLine).Select(long.Parse).ToArray();
         }
 
+        public static T[][] As2DArray<T>(this string input)
+        {
+            return input.Split(Environment.NewLine).Select(line => line.Select(c => Parse<T>(c.ToString())).ToArray()).ToArray();
+        }
+
         public static Tree<T> AsTree<T>(this string input, string delim, Func<string, T> dataFn)
         {
             var nodeMap = new Dictionary<T, TreeNode<T>>();

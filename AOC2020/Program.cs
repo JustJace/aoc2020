@@ -21,11 +21,11 @@ namespace AOC2020
                 }
             }
 
-            // SolveMostRecent(solvers);
+            SolveMostRecent(solvers);
             // SolveExactly(solvers, 2, 2);
-            SolveAll(solvers);
+            // SolveAll(solvers);
 
-            Console.In.ReadLine();
+            // Console.In.ReadLine();
         }
 
         private static void SolveExactly(List<ISolve> solvers, int day, int part)
