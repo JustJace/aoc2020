@@ -17,17 +17,16 @@ namespace AOC2020.Solutions
             var map = input.As2DArray<char>();
             var dx = 3;
             var dy = 1;
-            var positionX = dx;
-            var positionY = dy;
+            var posX = dx;
+            var posY = dy;
             var trees = 0;
 
-            while (positionY < map.Length)
+            while (posY < map.Length)
             {
-                if (positionX >= map[0].Length) positionX = positionX % map[0].Length;
-                if (map[positionY][positionX] == '#') trees++;
+                if (map[posY][posX % map[0].Length] == '#') trees++;
 
-                positionX += dx;
-                positionY += dy;
+                posX += dx;
+                posY += dy;
             }
 
             return trees;
