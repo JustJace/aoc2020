@@ -8,6 +8,18 @@ namespace AOC2020
 {
     public static class StringExtensions
     {
+        public static (string, string) SplitTwo(this string input, char delim)
+        {
+            var split = input.Split(delim);
+            return (split[0], split[1]);
+        }
+
+        public static (string, string, string) SplitThree(this string input, char delim)
+        {
+            var split = input.Split(delim);
+            return (split[0], split[1], split[2]);
+        }
+
         public static int[] AsIntArray(this string input)
         {
             return input.Split(Environment.NewLine).Select(int.Parse).ToArray();
