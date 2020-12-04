@@ -14,7 +14,7 @@ namespace AOC2020.Tests
         private const string _cyclicGraph = @"1: 2 3
 2: 4 5
 3: 6 7
-7: 1";
+7: 1 2";
 
         [Fact]
         public void should_find_dfs_match_on_undirected_acyclic()
@@ -63,6 +63,53 @@ namespace AOC2020.Tests
         }
 
         [Fact]
+        public void should_find_dfs_match_on_undirected_cyclic()
+        {
+            var graph = _cyclicGraph.AsGraph<int>(": ", int.Parse, false);
+            var start = graph.Nodes.Values.First();
+
+            var node = graph.DFS(start, i => i == 6);
+
+            Assert.NotNull(node);
+            Assert.Equal(6, node.Data);
+        }
+
+        [Fact]
+        public void should_not_find_dfs_match_on_undirected_cyclic_if_none_exists()
+        {
+            var graph = _cyclicGraph.AsGraph<int>(": ", int.Parse, false);
+            var start = graph.Nodes.Values.First();
+
+            var node = graph.DFS(start, i => i == 8);
+
+            Assert.Null(node);
+        }
+
+        [Fact]
+        public void should_find_dfs_match_on_directed_cyclic()
+        {
+            var graph = _cyclicGraph.AsGraph<int>(": ", int.Parse, true);
+            var start = graph.Nodes.Values.First();
+
+            var node = graph.DFS(start, i => i == 6);
+
+            Assert.NotNull(node);
+            Assert.Equal(6, node.Data);
+        }
+
+        [Fact]
+        public void should_not_find_dfs_match_on_directed_cyclic_if_none_exists()
+        {
+            var graph = _cyclicGraph.AsGraph<int>(": ", int.Parse, true);
+            var start = graph.Nodes.Values.First();
+
+            var node = graph.DFS(start, i => i == 8);
+
+            Assert.Null(node);
+        }
+
+
+        [Fact]
         public void should_find_bfs_match_on_undirected_acyclic()
         {
             var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, false);
@@ -109,93 +156,47 @@ namespace AOC2020.Tests
         }
 
         [Fact]
-        public void should_find_dijkstras_match_on_undirected_acyclic()
+        public void should_find_bfs_match_on_undirected_cyclic()
         {
-            var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, false);
+            var graph = _cyclicGraph.AsGraph<int>(": ", int.Parse, false);
             var start = graph.Nodes.Values.First();
 
-            var node = graph.Dijkstras(start, i => i, i => i == 6);
+            var node = graph.BFS(start, i => i == 6);
 
             Assert.NotNull(node);
             Assert.Equal(6, node.Data);
         }
 
         [Fact]
-        public void should_not_find_dijkstras_match_on_undirected_acyclic_if_none_exists()
+        public void should_not_find_bfs_match_on_undirected_cyclic_if_none_exists()
         {
-            var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, false);
+            var graph = _cyclicGraph.AsGraph<int>(": ", int.Parse, false);
             var start = graph.Nodes.Values.First();
 
-            var node = graph.Dijkstras(start, i => i, i => i == 8);
+            var node = graph.BFS(start, i => i == 8);
 
             Assert.Null(node);
         }
 
         [Fact]
-        public void should_find_dijkstras_match_on_directed_acyclic()
+        public void should_find_bfs_match_on_directed_cyclic()
         {
-            var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, true);
+            var graph = _cyclicGraph.AsGraph<int>(": ", int.Parse, true);
             var start = graph.Nodes.Values.First();
 
-            var node = graph.Dijkstras(start, i => i, i => i == 6);
+            var node = graph.BFS(start, i => i == 6);
 
             Assert.NotNull(node);
             Assert.Equal(6, node.Data);
         }
 
         [Fact]
-        public void should_not_find_dijkstras_match_on_directed_acyclic_if_none_exists()
+        public void should_not_find_bfs_match_on_directed_cyclic_if_none_exists()
         {
-            var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, true);
+            var graph = _cyclicGraph.AsGraph<int>(": ", int.Parse, true);
             var start = graph.Nodes.Values.First();
 
-            var node = graph.Dijkstras(start, i => i, i => i == 8);
-
-            Assert.Null(node);
-        }
-
-        [Fact]
-        public void should_find_astar_match_on_undirected_acyclic()
-        {
-            var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, false);
-            var start = graph.Nodes.Values.First();
-
-            var node = graph.AStar(start, i => i, i => Math.Abs(i - 6), i => i == 6);
-
-            Assert.NotNull(node);
-            Assert.Equal(6, node.Data);
-        }
-
-        [Fact]
-        public void should_not_find_astar_match_on_undirected_acyclic_if_none_exists()
-        {
-            var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, false);
-            var start = graph.Nodes.Values.First();
-
-            var node = graph.AStar(start, i => i, i => Math.Abs(i - 8), i => i == 8);
-
-            Assert.Null(node);
-        }
-
-        [Fact]
-        public void should_find_astar_match_on_directed_acyclic()
-        {
-            var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, true);
-            var start = graph.Nodes.Values.First();
-
-            var node = graph.AStar(start, i => i, i => Math.Abs(i - 6), i => i == 6);
-
-            Assert.NotNull(node);
-            Assert.Equal(6, node.Data);
-        }
-
-        [Fact]
-        public void should_not_find_astar_match_on_directed_acyclic_if_none_exists()
-        {
-            var graph = _acyclicGraph.AsGraph<int>(": ", int.Parse, true);
-            var start = graph.Nodes.Values.First();
-
-            var node = graph.AStar(start, i => i, i => Math.Abs(i - 8), i => i == 8);
+            var node = graph.BFS(start, i => i == 8);
 
             Assert.Null(node);
         }

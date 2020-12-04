@@ -52,26 +52,5 @@ namespace AOC2020.Tests
 
             Assert.Null(node);
         }
-
-        [Fact]
-        public void should_find_djikstras_match_if_exists()
-        {
-            var tree = _treeString.AsTree<int>(": ", int.Parse);
-
-            var node = tree.Dijkstras(i => i, i => i == 6);
-
-            Assert.NotNull(node);
-            Assert.Equal(6, node.Data);
-        }
-
-        [Fact]
-        public void should_not_find_djikstras_match_if_none_exists()
-        {
-            var tree = _treeString.AsTree<int>(": ", int.Parse);
-
-            var node = tree.Dijkstras(i => i, i => i == 8);
-
-            Assert.Null(node);
-        }
     }
 }

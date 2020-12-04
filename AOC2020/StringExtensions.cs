@@ -115,6 +115,42 @@ namespace AOC2020
             return new Graph<T>(nodeMap.Values);
         }
 
+        public static WGraph<T> AsWGraph<T>(this string input, Func<string, T> dataFn, Func<string, int> weightFn, bool directed = false)
+        {
+            var nodeMap = new Dictionary<T, WGraphNode<T>>();
+            var lines = input.Split(Environment.NewLine);
+            foreach (var line in lines)
+            {
+                var split = line.Split(' ');
+                var fromData = dataFn(split[0]);
+                var weight = weightFn(split[1]);
+                var toData = dataFn(split[2]);
+
+                if (!nodeMap.ContainsKey(fromData))
+                {
+                    nodeMap[fromData] = new WGraphNode<T>(fromData);
+                }
+
+                var fromNode = nodeMap[fromData];
+                
+                if (!nodeMap.ContainsKey(toData))
+                {
+                    nodeMap[toData] = new WGraphNode<T>(toData);
+                }
+
+                var toNode = nodeMap[toData];
+
+                fromNode.Edges.Add(new WGraphEdge<T>(toNode, weight));
+
+                if (!directed)
+                {
+                    toNode.Edges.Add(new WGraphEdge<T>(fromNode, weight));
+                }
+            }
+
+            return new WGraph<T>(nodeMap.Values);
+        }
+
         public static T1 Regex<T1>(this string input, string pattern)
         {
             var match = System.Text.RegularExpressions.Regex.Match(input, pattern);
