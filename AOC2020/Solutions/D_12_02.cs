@@ -33,10 +33,10 @@ namespace AOC2020.Solutions
                 var (action, amount) = instruction.Regex<char, int>("(.)([0-9]+)");
                 switch (action)
                 {
-                    case 'N': 
-                    case 'S': 
-                    case 'W': 
-                    case 'E': (wx, wy) = CardinalTranslate(action, amount, wx, wy); break;
+                    case 'N': wy += amount; break;
+                    case 'S': wy -= amount; break;
+                    case 'W': wx -= amount; break;
+                    case 'E': wx += amount; break;
                     case 'F': sx += amount * wx; sy += amount * wy; break;
                     case 'L': (wx, wy) = rotationMatrix[amount](wx, wy); break;
                     case 'R': (wx, wy) = rotationMatrix[360 - amount](wx, wy); break;
@@ -44,19 +44,6 @@ namespace AOC2020.Solutions
             }
 
             return Math.Abs(sx) + Math.Abs(sy);
-        }
-
-        private (int, int) CardinalTranslate(char direction, int amount, int x, int y)
-        {
-            switch (direction)
-            {
-                case 'N': y += amount; break;
-                case 'S': y -= amount; break;
-                case 'W': x -= amount; break;
-                case 'E': x += amount; break;
-            }
-
-            return (x, y);
         }
     }
 }
