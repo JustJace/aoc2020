@@ -21,7 +21,7 @@ namespace AOC2020.Search
                 }
                 else
                 {
-                    foreach (var neighbor in current.Neighbors)
+                    foreach (var neighbor in current.OrthNeighbors)
                     {
                         if (!seen.Contains(neighbor.Coordinate))
                         {
@@ -53,7 +53,7 @@ namespace AOC2020.Search
                 }
                 else
                 {
-                    foreach (var neighbor in current.Neighbors)
+                    foreach (var neighbor in current.OrthNeighbors)
                     {
                         if (!seen.Contains(neighbor.Coordinate))
                         {

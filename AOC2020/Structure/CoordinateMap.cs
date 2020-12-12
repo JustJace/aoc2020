@@ -7,14 +7,14 @@ namespace AOC2020.Structure
     public class CoordinateMap<T>
     {
         private readonly Func<char, T> _datanFn;
-        private readonly int _width;
-        private readonly int _height;
+        public readonly int Width;
+        public readonly int Height;
 
         public CoordinateMap(char[][] referenceMap, Func<char, T> dataFn)
         {
             ReferenceMap = referenceMap;
-            this._height = referenceMap.Length;
-            this._width = referenceMap[0].Length;
+            this.Height = referenceMap.Length;
+            this.Width = referenceMap[0].Length;
             this._datanFn = dataFn;
         }
 
@@ -23,8 +23,8 @@ namespace AOC2020.Structure
         public CoordinateNode<T> Locate(int x, int y) => Locate(new Coordinate(x, y));
         public CoordinateNode<T> Locate(Coordinate coordinate)
         {
-            if (coordinate.X < 0 || coordinate.X >= _width) return null;
-            if (coordinate.Y < 0 || coordinate.Y >= _height) return null;
+            if (coordinate.X < 0 || coordinate.X >= Width) return null;
+            if (coordinate.Y < 0 || coordinate.Y >= Height) return null;
 
             if (!NodeMap.ContainsKey(coordinate))
             {
@@ -55,11 +55,21 @@ namespace AOC2020.Structure
         public bool HasSouth => South != null;
         public bool HasWest => West != null;
         public bool HasEast => East != null;
+        public bool HasNorthWest => NorthWest != null;
+        public bool HasNorthEast => NorthEast != null;
+        public bool HasSouthEast => SouthEast != null;
+        public bool HasSouthWest => SouthWest != null;
         public CoordinateNode<T> North => _containingMap.Locate(X, Y - 1);
         public CoordinateNode<T> South => _containingMap.Locate(X, Y + 1);
         public CoordinateNode<T> West => _containingMap.Locate(X - 1, Y);
         public CoordinateNode<T> East => _containingMap.Locate(X + 1, Y);
-        public CoordinateNode<T>[] Neighbors => new [] { North, South, East, West }.Where(n => n != null).ToArray();
+        public CoordinateNode<T> NorthWest => _containingMap.Locate(X - 1, Y - 1);
+        public CoordinateNode<T> NorthEast => _containingMap.Locate(X + 1, Y - 1);
+        public CoordinateNode<T> SouthEast => _containingMap.Locate(X + 1, Y + 1);
+        public CoordinateNode<T> SouthWest => _containingMap.Locate(X - 1, Y + 1);
+        public CoordinateNode<T>[] OrthNeighbors => new [] { North, South, East, West }.Where(n => n != null).ToArray();
+        public CoordinateNode<T>[] DiagNeighbors => new [] { NorthWest, NorthEast, SouthEast, SouthWest }.Where(n => n != null).ToArray();
+        public CoordinateNode<T>[] Neighbors => OrthNeighbors.Concat(DiagNeighbors).ToArray();
     }
 
     public class Coordinate

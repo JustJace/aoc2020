@@ -33,7 +33,7 @@ namespace AOC2020.Solutions
 
                     foreach (var field in fields)
                     {
-                        var (name, value) = field.SplitTwo(':');
+                        var (name, value) = field.SplitInTwo(':');
                         passport.Fields[name] = value;
                     }
                 }
@@ -60,30 +60,29 @@ namespace AOC2020.Solutions
                     case "byr": return int.TryParse(value, out int byr) && byr >= 1920 && byr <= 2002;
                     case "iyr": return int.TryParse(value, out int iyr) && iyr >= 2010 && iyr <= 2020;
                     case "eyr": return int.TryParse(value, out int eyr) && eyr >= 2020 && eyr <= 2030;
-                    case "hgt": 
-                        var regex = @"(\d+)(in|cm)";
-                        if (Regex.IsMatch(value, regex))
-                        {
-                            var (hgt, unit) = value.Regex<int, string>(regex);
-                            if (unit == "cm")
-                            {
-                                return hgt >= 150 && hgt <= 193;
-                            }
-                            else
-                            {
-                                return hgt >= 59 && hgt <= 76;
-                            }
-                        }
-                        else
-                        {
-                            return false;
-                        }
+                    case "hgt": return ValidateHeight(value);
                     case "hcl": return Regex.IsMatch(value, "#[0-9a-f]{6}");
                     case "ecl": return new [] { "amb", "blu", "brn", "gry", "grn", "hzl", "oth" }.Contains(value);
                     case "pid": return Regex.IsMatch(value, "^[0-9]{9}$");
                     case "cid": return true;
                     default: throw new Exception("Unexpected field name");
                 }
+            }
+
+            private bool ValidateHeight(string value)
+            {
+                var regex = @"(\d+)(in|cm)";
+                        if (Regex.IsMatch(value, regex))
+                        {
+                            var (hgt, unit) = value.Regex<int, string>(regex);
+
+                            if (unit == "cm") return hgt >= 150 && hgt <= 193;
+                            else              return hgt >= 59  && hgt <= 76;
+                        }
+                        else
+                        {
+                            return false;
+                        }
             }
         }
     }

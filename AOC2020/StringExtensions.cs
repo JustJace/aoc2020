@@ -8,13 +8,23 @@ namespace AOC2020
 {
     public static class StringExtensions
     {
-        public static (string, string) SplitTwo(this string input, char delim)
+        public static string[] PerNewLine(this string input)
+        {
+            return input.Split(Environment.NewLine);
+        }
+
+        public static string[] PerDoubleSpaced(this string input)
+        {
+            return input.Split(Environment.NewLine + Environment.NewLine);
+        }
+
+        public static (string, string) SplitInTwo(this string input, char delim)
         {
             var split = input.Split(delim);
             return (split[0], split[1]);
         }
 
-        public static (string, string, string) SplitThree(this string input, char delim)
+        public static (string, string, string) SplitInThree(this string input, char delim)
         {
             var split = input.Split(delim);
             return (split[0], split[1], split[2]);

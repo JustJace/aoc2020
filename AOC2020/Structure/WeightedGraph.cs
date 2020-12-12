@@ -23,6 +23,10 @@ namespace AOC2020.Structure
 
         public T Data { get; }
         public HashSet<WGraphEdge<T>> Edges { get; } = new HashSet<WGraphEdge<T>>();
+        public void AddEdge(WGraphNode<T> node, int weight) 
+        {
+            Edges.Add(new WGraphEdge<T>(node, weight));
+        }
     }
 
     public class WGraphEdge<T>

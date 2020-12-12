@@ -34,7 +34,7 @@ namespace AOC2020.Solutions
 
                     foreach (var field in fields)
                     {
-                        var (name, value) = field.SplitTwo(':');
+                        var (name, value) = field.SplitInTwo(':');
                         passport.Fields[name] = value;
                     }
                 }

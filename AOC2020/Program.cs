@@ -21,8 +21,8 @@ namespace AOC2020
                 }
             }
 
-            SolveMostRecent(solvers);
-            // SolveExactly(solvers, 2, 2);
+            // SolveMostRecent(solvers);
+            SolveExactly(solvers, 11, 2);
             // SolveAll(solvers);
 
             // Console.In.ReadLine();
