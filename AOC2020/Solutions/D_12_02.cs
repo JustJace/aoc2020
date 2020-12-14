@@ -28,7 +28,7 @@ namespace AOC2020.Solutions
                 [270] = (x, y) => ( y, -x)
             };
 
-            foreach (var instruction in input.Split(Environment.NewLine))
+            foreach (var instruction in input.PerNewLine())
             {
                 var (action, amount) = instruction.Regex<char, int>("(.)([0-9]+)");
                 switch (action)
