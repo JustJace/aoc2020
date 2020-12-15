@@ -236,6 +236,10 @@ namespace AOC2020
             {
                 value = char.Parse(input);
             }
+            else if (typeof(TYPE) == typeof(ulong))
+            {
+                value = ulong.Parse(input);
+            }
             else
             {
                 throw new Exception("Trying to parse unexpected value type");
