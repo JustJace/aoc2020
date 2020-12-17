@@ -212,6 +212,20 @@ namespace AOC2020
             );
         }
 
+        
+        public static (T1, T2, T3, T4, T5) Regex<T1, T2, T3, T4, T5>(this string input, string pattern)
+        {
+            var match = System.Text.RegularExpressions.Regex.Match(input, pattern);
+            return
+            (
+                Parse<T1>(match.Groups[1].ToString()),
+                Parse<T2>(match.Groups[2].ToString()),
+                Parse<T3>(match.Groups[3].ToString()),
+                Parse<T4>(match.Groups[4].ToString()),
+                Parse<T5>(match.Groups[5].ToString())
+            );
+        }
+
         private static TYPE Parse<TYPE>(string input)
         {
             object value;
