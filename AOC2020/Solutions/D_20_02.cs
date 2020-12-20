@@ -136,59 +136,6 @@ namespace AOC2020.Solutions
             tile.rotate270();
             if (FindMonster(tile, out _, out _)) return tile;
 
-            // rotate then flipx
-            tile.reset();
-            tile.rotate90();
-            tile.flipX();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            tile.reset();
-            tile.rotate180();
-            tile.flipX();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            tile.reset();
-            tile.rotate270();
-            tile.flipX();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            // just flipy
-            tile.reset();
-            tile.flipY();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            // flipy then rotate
-            tile.reset();
-            tile.flipY();
-            tile.rotate90();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            tile.reset();
-            tile.flipY();
-            tile.rotate180();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            tile.reset();
-            tile.flipY();
-            tile.rotate270();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            // rotate then flipy
-            tile.reset();
-            tile.rotate90();
-            tile.flipY();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            tile.reset();
-            tile.rotate180();
-            tile.flipY();
-            if (FindMonster(tile, out _, out _)) return tile;
-
-            tile.reset();
-            tile.rotate270();
-            tile.flipY();
-            if (FindMonster(tile, out _, out _)) return tile;
-
             throw new Exception("no orientation has a monster");
         }
 
@@ -420,59 +367,6 @@ namespace AOC2020.Solutions
             tile.rotate270();
             if (CanConnect(placed, tile, out direction)) return true;
 
-            // rotate then flipx
-            tile.reset();
-            tile.rotate90();
-            tile.flipX();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            tile.reset();
-            tile.rotate180();
-            tile.flipX();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            tile.reset();
-            tile.rotate270();
-            tile.flipX();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            // just flipy
-            tile.reset();
-            tile.flipY();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            // flipy then rotate
-            tile.reset();
-            tile.flipY();
-            tile.rotate90();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            tile.reset();
-            tile.flipY();
-            tile.rotate180();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            tile.reset();
-            tile.flipY();
-            tile.rotate270();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            // rotate then flipy
-            tile.reset();
-            tile.rotate90();
-            tile.flipY();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            tile.reset();
-            tile.rotate180();
-            tile.flipY();
-            if (CanConnect(placed, tile, out direction)) return true;
-
-            tile.reset();
-            tile.rotate270();
-            tile.flipY();
-            if (CanConnect(placed, tile, out direction)) return true;
-
             return false;
         }
 
@@ -489,12 +383,20 @@ namespace AOC2020.Solutions
         {
             switch (direction)
             {
-                case "left":  return placed.left() == tile.right();
-                case "right": return placed.right() == tile.left();
-                case "up":    return placed.top() == tile.bottom();
-                case "down":  return placed.bottom() == tile.top();
+                case "left":  return CompareChars(placed.left(), tile.right());
+                case "right": return CompareChars(placed.right(), tile.left());
+                case "up":    return CompareChars(placed.top(), tile.bottom());
+                case "down":  return CompareChars(placed.bottom(), tile.top());
                 default: throw new Exception("unexpected direction");
             }
+        }
+
+        private bool CompareChars(char[] a, char[] b)
+        {
+            if (a.Length != b.Length) return false;
+            for (var i = 0; i < a.Length; i++)
+                if (a[i] != b[i]) return false;
+            return true;
         }
 
         private Dictionary<int, tile> ParseTiles(string input)
@@ -546,10 +448,10 @@ namespace AOC2020.Solutions
                 _mutations.Clear();
             }
 
-            public string top() => new string(data[0]);
-            public string bottom() => new string(data[data.Length - 1]);
-            public string left() => new string(data.Select(r => r[0]).ToArray());
-            public string right() => new string(data.Select(r => r[data.Length - 1]).ToArray());
+            public char[] top() => data[0];
+            public char[] bottom() => data[data.Length - 1];
+            public char[] left() => data.Select(r => r[0]).ToArray();
+            public char[] right() => data.Select(r => r[data.Length - 1]).ToArray();
  
             public void flipY()
             {
