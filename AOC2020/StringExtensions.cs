@@ -13,7 +13,7 @@ namespace AOC2020
             return input.Split(Environment.NewLine);
         }
 
-        public static string[] PerDoubleSpaced(this string input)
+        public static string[] PerDoubleLine(this string input)
         {
             return input.Split(Environment.NewLine + Environment.NewLine);
         }

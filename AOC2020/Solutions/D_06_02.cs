@@ -16,7 +16,7 @@ namespace AOC2020.Solutions
 
         protected override int GetAnswer(string input)
         {
-            var groups = input.PerDoubleSpaced();
+            var groups = input.PerDoubleLine();
             var count = 0;
             foreach (var group in groups)
             {

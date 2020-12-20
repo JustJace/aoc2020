@@ -15,7 +15,7 @@ namespace AOC2020.Solutions
         protected override string Filename => @"Inputs\D_16.input";
         protected override long GetAnswer(string input)
         {
-            var sections = input.PerDoubleSpaced();
+            var sections = input.PerDoubleLine();
             var rules = sections[0].PerNewLine().Select(l => 
             {
                 var (name, low1, high1, low2, high2) = l.Regex<string, int,int,int,int>(@"(.+): ([0-9]+)-([0-9]+) or ([0-9]+)-([0-9]+)");
