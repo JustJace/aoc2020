@@ -22,7 +22,7 @@ namespace AOC2020
             }
 
             SolveMostRecent(solvers);
-            // SolveExactly(solvers, 17, 1);
+            // SolveExactly(solvers, 19, 1);
             // SolveAll(solvers);
 
             // Console.In.ReadLine();
@@ -32,7 +32,7 @@ namespace AOC2020
         {
             foreach (var solver in solvers.Where(s => s.Day == day && s.Part == part))
             {
-                TimedSolvesWithPrint(solver, 0);
+                TimedSolvesWithPrint(solver, 10);
             }
         }
 
