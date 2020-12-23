@@ -35,7 +35,7 @@ namespace AOC2020.Solutions
                 nodes[node.label] = node;
             }
 
-            for (var i = nodes.Values.Max(n => n.label) + 1; i <= maxcup; i++) 
+            for (var i = nodes.Count + 1; i <= maxcup; i++) 
             {
                 var node = new node(i);
                 current.next = node;
@@ -50,13 +50,13 @@ namespace AOC2020.Solutions
 
         private void PlayGame(node current, Dictionary<int, node> nodes, int rounds)
         {
-            var max = nodes.Values.Max(n => n.label);
+            var max = nodes.Count;
             for (var i = 0; i < rounds; i++)
             {
                 var pickupcups = new [] { current.next, current.next.next, current.next.next.next };
                 current.next = pickupcups.Last().next;
 
-                var destinationLabel = FindDestinationLabel(current.label - 1, max, pickupcups);
+                var destinationLabel = FindDestinationLabel(current.label - 1, max, pickupcups.SelectArray(c => c.label));
                 var destinationCup = nodes[destinationLabel];
                 var cup4 = destinationCup.next;
 
@@ -68,10 +68,10 @@ namespace AOC2020.Solutions
         }
 
         private int UnderflowCheck(int n, int max) => n < 1 ? max : n;
-        private int FindDestinationLabel(int current, int max, node[] pickupcups)
+        private int FindDestinationLabel(int current, int max, int[] pickupLabels)
         {
             current = UnderflowCheck(current, max);
-            while (pickupcups.Select(c => c.label).Contains(current))
+            while (pickupLabels.Contains(current))
             {
                 current--;
                 current = UnderflowCheck(current, max);
