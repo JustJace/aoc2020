@@ -15,78 +15,73 @@ namespace AOC2020.Solutions
         protected override string Filename => @"Inputs\D_23.input";
         protected override ulong GetAnswer(string input)
         {
-            var labels = input;
-            var start = new node
-            {
-                label = int.Parse(labels[0].ToString())
-            };
-            var nodes = new Dictionary<int, node>()
-            {
-                {start.label, start}
-            };
+            var labels = input.Select(c => int.Parse(c.ToString())).ToArray();
+            var (start, nodes) = BuildCups(labels, maxcup: 1000000);
+            PlayGame(start, nodes, rounds: 10000000);
+            return (ulong)nodes[1].next.label * (ulong)nodes[1].next.next.label;
+        }
 
+        private (node, Dictionary<int, node>) BuildCups(int[] labels, int maxcup)
+        {
+            var start = new node(labels[0]);
+            var nodes = new Dictionary<int, node>() {{start.label, start}};
             var current = start;
 
             for (var i = 1; i < labels.Length; i++) 
             {
-                var node = new node
-                {
-                    label = int.Parse(labels[i].ToString())
-                };
-                nodes[node.label] = node;
+                var node = new node(labels[i]);
                 current.next = node;
                 current = node;
+                nodes[node.label] = node;
             }
 
-            for (var i = nodes.Values.Max(n => n.label) + 1; i <= 1000000; i++) 
+            for (var i = nodes.Values.Max(n => n.label) + 1; i <= maxcup; i++) 
             {
-                var node = new node
-                {
-                    label = i
-                };
-                nodes[node.label] = node;
+                var node = new node(i);
                 current.next = node;
                 current = node;
+                nodes[node.label] = node;
             }
 
             current.next = start;
 
-            return PlayGame(start, nodes);
+            return (start, nodes);
         }
 
-        private ulong PlayGame(node start, Dictionary<int, node> nodes)
+        private void PlayGame(node current, Dictionary<int, node> nodes, int rounds)
         {
-            var current = start;
-            for (var i = 0; i < 10000000; i++)
+            var max = nodes.Values.Max(n => n.label);
+            for (var i = 0; i < rounds; i++)
             {
-                var pickupcups = new [] { current.next, current.next.next, current.next.next.next};
+                var pickupcups = new [] { current.next, current.next.next, current.next.next.next };
                 current.next = pickupcups.Last().next;
 
-                var j = current.label - 1;
-                if (j < 1) j = nodes.Values.Max(n => n.label);
-                while (pickupcups.Select(c => c.label).Contains(j))
-                {
-                    j--;
-                    if (j < 1) j = nodes.Values.Max(n => n.label);
-                }
-
-                var destinationCup = nodes[j];
-
+                var destinationLabel = FindDestinationLabel(current.label - 1, max, pickupcups);
+                var destinationCup = nodes[destinationLabel];
                 var cup4 = destinationCup.next;
 
                 destinationCup.next = pickupcups[0];
-
                 pickupcups.Last().next = cup4;
-
+                
                 current = current.next;
             }
+        }
 
-            var one = nodes[1];
-            return (ulong)one.next.label * (ulong)one.next.next.label;
+        private int UnderflowCheck(int n, int max) => n < 1 ? max : n;
+        private int FindDestinationLabel(int current, int max, node[] pickupcups)
+        {
+            current = UnderflowCheck(current, max);
+            while (pickupcups.Select(c => c.label).Contains(current))
+            {
+                current--;
+                current = UnderflowCheck(current, max);
+            }
+            return current;
         }
 
         class node
         {
+            public node (int label) { this.label = label; }
             public int label;
             public node next;
         }
