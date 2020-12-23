@@ -11,14 +11,13 @@ namespace AOC2020.Solutions
         protected override long GetAnswer(string input)
         {
             var sections = input.PerDoubleLine();
-            var player1 = ParsePlayer(sections[0]);
-            var player2 = ParsePlayer(sections[1]);
+            var player1 = new Queue<int>(sections[0].PerNewLine().Skip(1).Select(int.Parse));
+            var player2 = new Queue<int>(sections[1].PerNewLine().Skip(1).Select(int.Parse));
             var (player, winningdeck) = RCombat(player1, player2);
             var score = 0;
 
-            for (var i = winningdeck.Count; i >= 1; i--)
-                score += winningdeck.Dequeue() * i;
-                
+            for (var i = winningdeck.Count; i >= 1; i--) score += winningdeck.Dequeue() * i;
+
             return score;
         }
 
@@ -32,8 +31,7 @@ namespace AOC2020.Solutions
                 if (seen.Contains(roundKey)) return (Player.One, player1);
                 else seen.Add(roundKey);
 
-                var p1card = player1.Dequeue();
-                var p2card = player2.Dequeue();
+                var p1card = player1.Dequeue(); var p2card = player2.Dequeue();
                 var winner = Player.One;
 
                 if (player1.Count >= p1card && player2.Count >= p2card)
@@ -47,31 +45,19 @@ namespace AOC2020.Solutions
 
                 if (winner == Player.One)
                 {
-                    player1.Enqueue(p1card);
-                    player1.Enqueue(p2card);
+                    player1.Enqueue(p1card); player1.Enqueue(p2card);
                 }
                 else
                 {
-                    player2.Enqueue(p2card);
-                    player2.Enqueue(p1card);
+                    player2.Enqueue(p2card); player2.Enqueue(p1card);
                 }
             }
 
             return player1.Count > 0 ? (Player.One, player1) : (Player.Two, player2);
         }
 
-        private string AsKey(Queue<int> p1, Queue<int> p2) 
-        {
-            return p1.Concat(new int[] { 0 }).Concat(p2).Select(c => c.ToString()).Aggregate((a, b) => a + "," + b);
-        }
-
-        private Queue<int> ParsePlayer(string s)
-        {
-            var cards = s.PerNewLine().Skip(1).Select(int.Parse);
-            var queue = new Queue<int>();
-            foreach (var card in cards) queue.Enqueue(card);
-            return queue;
-        }
+        private string AsKey(Queue<int> p1, Queue<int> p2) => 
+            p1.Concat(new int[] { 0 }).Concat(p2).Select(c => c.ToString()).Aggregate((a, b) => a + "," + b);
 
         enum Player { One, Two }
     }
