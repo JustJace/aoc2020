@@ -25,6 +25,12 @@ vector<vector<string>> split_blocks(ifstream* stream) {
     return blocks;
 }
 
+vector<string> split_lines(ifstream* stream) {
+    vector<string> lines; string line;
+    while (getline(*stream, line)) lines.push_back(line);
+    return lines;
+}
+
 vector<string> split(string s, string delimiter) {
     vector<string> splits;
 
