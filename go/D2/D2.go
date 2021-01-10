@@ -81,6 +81,40 @@ func p1() int {
 	return count
 }
 
+func validateRule2(rule rule, c *chan bool, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	lo := string(rule.pw[rule.lo-1]) == rule.ch
+	hi := string(rule.pw[rule.hi-1]) == rule.ch
+
+	*c <- lo != hi
+}
+
+func p2() int {
+	rules := parseInput()
+	c := make(chan bool, len(rules))
+	var wg sync.WaitGroup
+
+	for _, rule := range rules {
+		wg.Add(1)
+		go validateRule2(rule, &c, &wg)
+	}
+
+	wg.Wait()
+
+	count := 0
+
+	for i := 0; i < len(rules); i++ {
+		valid := <-c
+		if valid {
+			count++
+		}
+	}
+
+	return count
+}
+
 func main() {
 	fmt.Println(p1())
+	fmt.Println(p2())
 }
