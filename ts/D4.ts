@@ -1,5 +1,4 @@
 import { readFileSync } from 'fs';
-import { parse } from 'path';
 import { timeAndPrint } from './time-and-print';
 
 interface passport {
