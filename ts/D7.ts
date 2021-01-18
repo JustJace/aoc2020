@@ -1,4 +1,3 @@
-import { info } from 'console';
 import { readFileSync } from 'fs';
 import { timeAndPrint } from './time-and-print';
 
