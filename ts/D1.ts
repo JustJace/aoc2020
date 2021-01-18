@@ -1,5 +1,5 @@
 import { readFileSync } from 'fs';
-import { performance } from 'perf_hooks';
+import { timeAndPrint } from './time-and-print';
 
 function parseInput(): number[] {
     const numbers = [];
@@ -50,13 +50,6 @@ function p2_bruteforce(): number {
     for (let k = j + 1; k < n.length; k++)
     if (n[i] + n[j] + n[k] == 2020)
         return n[i] * n[j] * n[k];
-}
-
-function timeAndPrint<T>(fn: Function) {
-    const start = performance.now();
-    const answer = fn();
-    const end = performance.now();
-    console.log(`${fn.name.padEnd(15)} ${(end-start).toString().padEnd(20)}ms -> ${answer}`);
 }
 
 timeAndPrint(p1);
