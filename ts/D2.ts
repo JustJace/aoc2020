@@ -11,7 +11,7 @@ class policy {
 function parseInput(): policy[] {
     const policies: policy[] = [];
     const content = readFileSync('../inputs/D2.input','utf8');
-    for (let line of content.split("\n")) {
+    for (let line of content.split("\r\n")) {
         const match = line.match(/([0-9]+)-([0-9]+) ([a-z]): ([a-z]+)/)
         policies.push(<policy>{
             low: +match[1],
