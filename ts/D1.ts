@@ -3,7 +3,7 @@ import { timeAndPrint } from './time-and-print';
 
 function parseInput(): number[] {
     const numbers = [];
-    const content = <string>readFileSync('../inputs/D1.input','utf8');
+    const content = readFileSync('../inputs/D1.input','utf8');
     for (let n of content.split("\n"))
         numbers.push(+n);
     return numbers;
