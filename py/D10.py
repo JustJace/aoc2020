@@ -1,10 +1,6 @@
 def parseInput():
     file = open("../inputs/D10.input", "r")
-    jolts = []
-    contents = file.read()
-    for line in contents.splitlines():
-        jolts.append(int(line))
-    return jolts
+    return list(map(int, file.read().splitlines()))
     
 def p1():
     jolts = parseInput()
@@ -36,10 +32,8 @@ def p2():
 
         if jolts[i + 1] - jolts[i] <= 3:
             dp[i] += dp[i + 1]
-        
         if jolts[i + 2] - jolts[i] <= 3:
             dp[i] += dp[i + 2]
-        
         if i + 3 < len(jolts) and jolts[i + 3] - jolts[i] <= 3:
             dp[i] += dp[i + 3]
 
