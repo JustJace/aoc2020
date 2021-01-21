@@ -32,11 +32,12 @@ def p2()
   dp = {}
   dp[jolts.length - 1] = 0
   dp[jolts.length - 2] = 1
-  for i in (jolts.length - 3).downto(0)
+  dp[jolts.length - 3] = 1
+  for i in (jolts.length - 4).downto(0)
     dp[i] = 0
     dp[i] += dp[i+1] if jolts[i + 1] - jolts[i] <= 3
     dp[i] += dp[i+2] if jolts[i + 2] - jolts[i] <= 3
-    dp[i] += dp[i+3] if i + 3 < jolts.length && jolts[i + 3] - jolts[i] <= 3
+    dp[i] += dp[i+3] if jolts[i + 3] - jolts[i] <= 3
   end
 
   return dp[0]
